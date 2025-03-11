@@ -1,0 +1,30 @@
+﻿version: '3.8'
+
+services:
+  crudapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crudapi
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5433;Database=postgre;Username=postgres;Password=yourpassword"
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: crudtest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123qwe
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
